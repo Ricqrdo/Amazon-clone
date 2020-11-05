@@ -1,14 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { signIn } from '../actions/userActions'
+import LoadingBox from '../components/LoadingBox'
+import MessageBox from '../components/MessageBox'
 
-export default function SingInScreen() {
+export default function SingInScreen(props) {
   const [email, setEmail] = useState('')
-  const [passoword, setPassword] = useState('')
+  const [password, setPassword] = useState('')
+
+  const redirect = props.location.search ? props.location.search.split('=')[1] : '/'
+
+  const userSignIn = useSelector(state => state.userSignIn)
+  const {userInfo, loading, error} = userSignIn
+
+  const dispatch = useDispatch()
 
   const submitHandler = (e) => {
     e.preventDefault()
+    dispatch(signIn(email, password))
   }
 
+  useEffect(()=>{
+    if(userInfo){
+      props.history.push(redirect)
+    }
+  }, [userInfo, redirect, props.history])
 
   return (
     <div>
@@ -16,6 +33,8 @@ export default function SingInScreen() {
         <div>
           <h1>Sing In</h1>
         </div>
+        {loading && <LoadingBox></LoadingBox>}
+        {error && <MessageBox variant='danger'>{error}</MessageBox>}
         <div>
           <label htmlFor="email">Email Address</label>
           <input 
