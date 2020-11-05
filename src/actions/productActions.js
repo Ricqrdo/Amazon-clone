@@ -6,7 +6,7 @@ export const listProducts = () => async (dispatch) => {
     type: PRODUCT_LIST_REQUEST
   })
   try {
-    const res = await axios.get('http://localhost:4000/api/products')
+    const res = await axios.get('https://amazon-api-clone.herokuapp.com/api/products')
     dispatch({type: PRODUCT_LIST_SUCCESS, payload: res.data})
   } catch (err) {
     dispatch({type: PRODUCT_LIST_FAIL, payload: err.message})
@@ -16,7 +16,7 @@ export const listProducts = () => async (dispatch) => {
 export const detailsProducts = (productId) => async (dispatch) => {
   dispatch({type: PRODUCT_DETAILS_REQUEST, payload: productId})
   try {
-    const res = await axios.get(`http://localhost:4000/api/products/${productId}`)
+    const res = await axios.get(`https://amazon-api-clone.herokuapp.com/api/products/${productId}`)
     dispatch({type: PRODUCT_DETAILS_SUCCESS, payload: res.data})
   } catch (error) {
     dispatch({type: PRODUCT_DETAILS_FAIL, payload: error.response && error.response.data.message ?

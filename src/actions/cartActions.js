@@ -2,7 +2,7 @@ import axios from "axios"
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants"
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
-  const res = await axios.get(`http://localhost:4000/api/products/${productId}`)
+  const res = await axios.get(`https://amazon-api-clone.herokuapp.com/api/products/${productId}`)
   
   dispatch({type: CART_ADD_ITEM, payload: {
     name: res.data.name,
